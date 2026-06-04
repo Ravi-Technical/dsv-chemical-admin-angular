@@ -1,0 +1,68 @@
+<div class="content-grid">
+
+    <!-- LEFT: Form -->
+    <mat-card class="form-card">
+        <mat-card-header>
+            <mat-card-title>
+                <mat-icon>{{ isEditMode ? 'edit' : 'add_circle' }}</mat-icon>
+                {{ isEditMode ? 'Edit Category' : 'Add New Category' }}
+            </mat-card-title>
+        </mat-card-header><br />
+        <mat-card-content>
+            <form [formGroup]="appProductForm" (ngSubmit)="onSubmit()">
+
+                <!-- App Product Name -->
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Product Name</mat-label>
+                    <input matInput formControlName="title" placeholder="Enter product name" (blur)="generateSlug()" />
+                    <mat-icon matSuffix>person</mat-icon>
+                    <mat-error *ngIf="appProductForm?.get('title')?.hasError('required')">
+                        Product name is required
+                    </mat-error>
+                    <mat-error *ngIf="appProductForm?.get('title')?.hasError('pattern')">
+                        Only alphabets allowed
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- App Slug Name -->
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Product Slug</mat-label>
+                    <input matInput formControlName="slug" placeholder="Enter product slug"  />
+                    <mat-icon matSuffix>person</mat-icon>
+                    <mat-error *ngIf="appProductForm?.get('slug')?.hasError('required')">
+                        Slug name is required
+                    </mat-error>
+                    <mat-error *ngIf="appProductForm?.get('slug')?.hasError('pattern')">
+                        Only alphabets allowed
+                    </mat-error>
+                </mat-form-field>
+                 
+                <mat-form-field appearance="outline">
+                    <mat-label>Select Category</mat-label>
+                    <mat-select formControlName="category">
+                        <mat-option *ngFor="let cat of categoriesData" [value]="cat">
+                            {{ cat }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="appProductForm?.get('categry')?.hasError('required')">
+                        Category is required
+                    </mat-error>
+                </mat-form-field>
+          <!-- Action Buttons -->
+          <div class="form-actions">
+            <button [ngClass]="isEditMode ? 'updateBtn' : 'submitBtn' " mat-raised-button color="primary" type="submit"
+              [disabled]="appProductForm.invalid || isLoading">
+              <mat-icon>{{ isEditMode ? 'save' : 'add' }}</mat-icon>
+              {{ isEditMode ? 'Update Category' : 'Create Category' }}
+            </button>
+
+            <button class="cancel_btn" mat-stroked-button type="button" *ngIf="isEditMode" (click)="resetForm()">
+              <mat-icon>close</mat-icon>
+              Cancel
+            </button>
+          </div>
+        </form>
+        </mat-card-content>
+    </mat-card>
+
+    </div>

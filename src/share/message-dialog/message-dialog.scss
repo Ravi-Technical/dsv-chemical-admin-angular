@@ -1,0 +1,82 @@
+// .message-text {
+//   font-size: 15px;
+//   line-height: 1.6;
+//   margin: 10px 0;
+// }
+
+// mat-dialog-content {
+//   min-width: 300px;
+//   max-width: 400px;
+// }
+
+// mat-dialog-title {
+//   font-weight: 600;
+// }
+
+.dialog-container {
+  text-align: center;
+  padding: 30px 24px;
+  border-radius: 20px;
+  min-width: 100%;
+  max-width: 100%;
+}
+
+.icon-wrapper {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  margin: 0 auto 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-wrapper mat-icon {
+  font-size: 50px;
+  color: white;
+  width: auto;
+  height: auto;
+}
+
+/* Error */
+.icon-wrapper.error {
+  background: #f44336;
+}
+
+/* Success */
+.icon-wrapper.success {
+  background: #4caf50;
+}
+
+/* Warning */
+.icon-wrapper.warning {
+  background: #ff9800;
+}
+
+/* Info */
+.icon-wrapper.info {
+  background: #2196f3;
+}
+
+.dialog-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.dialog-message {
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 25px;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: center;
+}
+
+button {
+  border-radius: 25px;
+  padding: 8px 28px;
+  font-weight: 500;
+}

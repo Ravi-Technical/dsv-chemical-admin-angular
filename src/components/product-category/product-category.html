@@ -1,0 +1,140 @@
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-12">
+            <!-- Add Fresh New Category -->
+            <div class="category_wraper mb-4">
+                <h4 class="title">{{isEditMode ? 'Update Product Category' : 'Add Product Category'}}</h4>
+                <form class="form-wraper" [formGroup]="productCategoryForm" (ngSubmit)="addNewCategory()">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Name</mat-label>
+                                <input matInput type="text" formControlName="Name" placeholder="Enter your title" />
+                                <mat-error *ngIf="productCategoryForm.get('Name')?.hasError('required')">
+                                    Name is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-4">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Slug</mat-label>
+                                <input matInput type="text" formControlName="Slug" placeholder="Enter your slug" />
+                                <mat-error *ngIf="productCategoryForm.get('Slug')?.hasError('required')">
+                                    Slug is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-4">
+                            <button *ngIf="isEditMode" mat-raised-button id="closeUpdate" (click)="closeUpdate()" > <mat-icon>close</mat-icon> </button>
+                            <button mat-raised-button id="submitBtn" color="primary" type="submit"
+                                [disabled]="productCategoryForm.invalid">
+                                {{isEditMode ? 'Update' : 'Submit' }}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Update Existing Category -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="listing_category">
+                <h4 class="title mb-4">Product Categories List</h4>
+                <div class="mat-elevation-z8">
+                    <!-- Search -->
+                    <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>Search</mat-label>
+                        <input matInput (keyup)="applyFilter($event)" placeholder="Search Title or Slug">
+                    </mat-form-field>
+                    <table mat-table [dataSource]="dataSource" matSort class="w-full">
+                        <!-- ID -->
+                        <ng-container matColumnDef="Id">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                ID
+                            </th>
+                            <td mat-cell *matCellDef="let row" >
+                               <span matTooltip="{{ row.id }}" matTooltipPosition="above">  {{ row.id | chartSplit }} </span>
+                            </td>
+                        </ng-container>
+                        <!-- Title -->
+                        <ng-container matColumnDef="Name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Name
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                 <span matTooltip="{{ row.name }}" matTooltipPosition="above"> {{ row.name | chartSplit}} </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- Slug -->
+                        <ng-container matColumnDef="Slug">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Slug
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <span matTooltip="{{ row.slug }}" matTooltipPosition="above">  {{ row.slug | chartSplit }} </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- Created Date -->
+                        <ng-container matColumnDef="CreatedDate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Created Date
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <span matTooltip="{{ row.createdDateTimeStamp }}" matTooltipPosition="above"> {{ row.createdDateTimeStamp |  date:'dd/MM/yyyy hh:mm a' }} </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- Updated Date -->
+                        <ng-container matColumnDef="ModifyDate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Modify Date
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                 <span matTooltip="{{ row.modifiedDateTimeStamp }}" matTooltipPosition="above"> {{ row.modifiedDateTimeStamp | date:'dd/MM/yyyy hh:mm a' }} </span>
+                            </td>
+                        </ng-container>
+                                                <!-- Status -->
+                        <ng-container matColumnDef="Status">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Status
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                  <span [ngClass]="row.status ? 'active' : 'deactive'">{{ row.status ? 'Active' : 'Deactive'  }} </span> 
+                            </td>
+                        </ng-container>
+                        <!-- Actions -->
+                        <ng-container matColumnDef="Actions">
+                            <th mat-header-cell *matHeaderCellDef>
+                                Actions
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <button mat-icon-button color="primary" (click)="edit(row)" matTooltip="Edit" matTooltipPosition="above">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-icon-button color="warn" (click)="delete(row)" matTooltip="Delete" matTooltipPosition="above">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+                        <!-- Header -->
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <!-- Rows -->
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        <tr class="mat-row center" *matNoDataRow>
+                            <td class="mat-cell" colspan="1">
+                                No results found
+                            </td>
+                        </tr>
+                        
+                    </table>
+                    <!-- Pagination -->
+                    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

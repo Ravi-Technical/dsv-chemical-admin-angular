@@ -1,0 +1,56 @@
+mat-dialog-content {
+  font-size: 14px;
+  color: #444;
+}
+
+mat-dialog-actions button {
+  margin-left: 8px;
+}
+
+p {
+  color: #333;
+}
+
+.deleteBtn {
+  background-color: #fb4545 !important;
+  color: #fff !important;
+  box-shadow: none !important;
+}
+
+.cancel_btn {
+  background: transparent;
+  border: 2px solid #e53935;
+  color: #e53935; 
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.wraper h5 {
+  font-weight: 500 !important;
+  color: #183b9f !important;
+}
+
+.wraper {
+  border-top: 4px solid #fc215d;
+  padding: 2rem 0;
+}
+
+.okBtn {
+  background-color: #0738ad !important;
+  color: #fff !important;
+  box-shadow: none !important;
+}
+button {
+    padding: 8px 30px !important;
+}
+button.errorBtn {
+    background-color: #d71a1a !important;
+    color: #fff !important;
+} 
+
+.sharp-dialog .mdc-dialog__surface {
+  border-radius: 0 !important;
+}

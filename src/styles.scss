@@ -1,1 +1,158 @@
-/* You can add global styles to this file, and also import other style files */
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+@use "tailwindcss";
+//@use "@kolkov/angular-editor/styles.css";
+
+* {
+  border: none;
+}
+
+html {
+  @include mat.theme((color: (primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    ));
+}
+
+body {
+  // Default the application to a light color theme. This can be changed to
+  // `dark` to enable the dark color theme, or to `light dark` to defer to the
+  // user's system settings.
+  color-scheme: light;
+
+  // Set a default background, font and text colors for the application using
+  // Angular Material's system-level CSS variables. Learn more about these
+  // variables at https://material.angular.dev/guide/system-variables
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  // Reset the user agent margin.
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+
+.mat-mdc-form-field-infix {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+  min-height: 36px !important;
+}
+
+.mat-mdc-text-field-wrapper {
+  padding: 0 8px !important;
+}
+
+.mat-mdc-input-element {
+  padding: 0 !important;
+  font-size: 14px;
+}
+
+.mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-floating-label {
+  top: 17px !important;
+  font-size: 13px !important;
+}
+
+.apexcharts-canvas {
+  border: none !important;
+}
+
+.apexcharts-svg {
+  border: none !important;
+}
+
+.snackbar-success {
+  background-color: #4caf50;
+  /* green */
+  color: #fff;
+}
+
+.snackbar-error {
+  background-color: #f44336;
+  /* red */
+  color: #fff;
+  animation: slideInRight 0.5s ease-out;
+}
+
+.snackbar-info {
+  background-color: #2196f3;
+  color: #fff;
+  animation: slideInRight 0.5s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Success snackbar button (OK) */
+.snackbar-success .mat-button {
+  color: #4caf50 !important;
+  font-weight: bold;
+}
+
+/* Error snackbar button (Dismiss) */
+.snackbar-error .mat-button {
+  color: #f44336 !important;
+  font-weight: bold;
+}
+
+/* Info snackbar button (Close) */
+.snackbar-info .mat-button {
+  color: #2196f3 !important;
+  font-weight: bold;
+}
+
+::ng-deep .mat-dialog-container {
+  border-radius: 0 !important;
+  /* removes rounded corners */
+}
+
+.mat-dialog-container {
+  border-radius: 0 !important;
+}
+
+.sharp-dialog .mat-dialog-container {
+  border-radius: 0 !important;
+}
+
+.cancel_btn:hover,
+.cancel_btn:focus,
+.cancel_btn:visited,
+.cancel_btn:active,
+.cancel_btn:focus-visible {
+  background-color: transparent !important;
+}
+
+.sharp-dialog {
+  --mdc-dialog-container-shape: 0px;
+
+  .mat-mdc-dialog-surface,
+  .mdc-dialog__surface {
+    border-radius: 2px !important;
+  }
+}
+
+ 

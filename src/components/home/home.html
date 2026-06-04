@@ -1,0 +1,42 @@
+<div class="wraper_boxes">
+    <div class="box-item">
+        <h4>Total Products</h4>
+        <h1>30</h1>
+        <span class="icon-wraper"><mat-icon>bookmark_border</mat-icon></span>
+    </div>
+    <div class="box-item">
+        <h4>Categories</h4>
+        <h1>6</h1>
+        <span class="icon-wraper"><mat-icon>personal_video</mat-icon></span>
+    </div>
+    <div class="box-item">
+        <h4>Applications</h4>
+        <h1>12</h1>
+        <span class="icon-wraper"><mat-icon>brightness_low</mat-icon></span>
+    </div>
+    <div class="box-item">
+        <h4>Enquiries</h4>
+        <h1>58</h1>
+        <span class="icon-wraper"><mat-icon>phone_callback</mat-icon></span>
+    </div>
+</div>
+
+<div class="home_wraper">
+    <div class="item">
+        <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
+            [legend]="chartOptions.legend" [title]="chartOptions.title" [stroke]="chartOptions.stroke">
+        </apx-chart>
+    </div>
+
+    <div class="item" id="chart1">
+        <apx-chart [series]="chartOptions1.series" [chart]="chartOptions1.chart" [labels]="chartOptions1.labels"
+            [responsive]="chartOptions1.responsive" [legend]="chartOptions1.legend"
+            [title]="chartOptions1.title"></apx-chart>
+    </div>
+
+    <div class="item" id="chart2">
+        <apx-chart [series]="chartOptions2.series" [chart]="chartOptions2.chart" [xaxis]="chartOptions2.xaxis"
+            [stroke]="chartOptions2.stroke" [tooltip]="chartOptions2.tooltip"
+            [dataLabels]="chartOptions2.dataLabels" [title]="chartOptions2.title"></apx-chart>
+    </div>
+</div>

@@ -1,0 +1,202 @@
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-12">
+            <!-- Add Fresh New Category -->
+            <div class="category_wraper mb-4">
+                <h4 class="title">Add Product</h4>
+                <form class="form-wraper" [formGroup]="productForm" (ngSubmit)="addNewProduct()">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Name</mat-label>
+                                <input matInput type="text" formControlName="Name" placeholder="Enter your name" />
+                                <mat-error *ngIf="productForm.get('Name')?.hasError('required')">
+                                    Name is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-4">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Slug</mat-label>
+                                <input matInput type="text" formControlName="Slug" placeholder="Enter your slug" />
+                                <mat-error *ngIf="productForm.get('Slug')?.hasError('required')">
+                                    Slug is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-4">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Product Category</mat-label>
+                                <mat-select formControlName="ProductCategoryId">
+                                    <mat-option *ngFor="let category of categoryList" [value]="category.id">
+                                        {{ category.name }}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="productForm.get('Category')?.hasError('required')">
+                                    Category is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-12">
+                            <label class="form-label">Description</label>
+                            <ng-container *ngIf="isBrowser">
+                                <ng-container *ngIf="Editor; else descriptionFallback">
+                                    <ckeditor formControlName="Description" [editor]="Editor" [config]="editorConfig">
+                                    </ckeditor>
+                                </ng-container>
+                                <ng-template #descriptionFallback>
+                                    <textarea formControlName="Description" rows="6"
+                                        class="form-control mt-2"></textarea>
+                                </ng-template>
+                            </ng-container>
+                            <div class="text-danger mt-2"
+                                *ngIf="productForm.get('Description')?.hasError('required') && productForm.get('Description')?.touched">
+                                Description is required
+                            </div>
+                        </div>
+                        <div class="col-lg-12 mt-3">
+                            <button mat-raised-button id="submitBtn" color="primary" type="submit"
+                                [disabled]="productForm.invalid">
+                                {{ isEditMode ? 'Update' :'Submit'}}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="listing_category">
+                <h4 class="title mb-4">Product Record List</h4>
+                <div class="mat-elevation-z8">
+                    <!-- Search -->
+                    <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>Search</mat-label>
+                        <input matInput #searchInput (keyup)="applyFilter($event)" placeholder="Search Title or Slug">
+                        <button *ngIf="searchInput.value" matSuffix mat-icon-button (click)="clearSearch(searchInput)"
+                            aria-label="Clear">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                        <mat-icon matPrefix>search</mat-icon>
+                    </mat-form-field>
+                    <table mat-table [dataSource]="dataSource" matSort class="w-full">
+                        <!-- ID -->
+                        <ng-container matColumnDef="Id">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                ID
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <span matTooltip="{{ row.id }}" matTooltipPosition="above"> {{ row.id | chartSplit}}
+                                </span>
+                            </td>
+                        </ng-container>
+                        <!-- Title -->
+                        <ng-container matColumnDef="Name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Name
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <span matTooltip="{{ row.name }}" matTooltipPosition="above">{{ row.name | chartSplit }}
+                                </span>
+                            </td>
+                        </ng-container>
+                        <!-- Slug -->
+                        <ng-container matColumnDef="Slug">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Slug
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <span matTooltip="{{ row.slug }}" matTooltipPosition="above"> {{ row.slug | chartSplit
+                                    }} </span>
+                            </td>
+                        </ng-container>
+                        <!-- Category -->
+                        <ng-container matColumnDef="Category">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Category
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <span matTooltip="{{ row.categoryName }}" matTooltipPosition="above">{{ row.categoryName
+                                    | chartSplit }} </span>
+                            </td>
+                        </ng-container>
+                        <!-- Description -->
+                        <ng-container matColumnDef="Description">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Description
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <span matTooltip="{{ row.description }}" matTooltipPosition="above">{{ row.description |
+                                    chartSplit}}</span>
+                            </td>
+                        </ng-container>
+                        <!-- Description -->
+                        <ng-container matColumnDef="CreatedDate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Created Date
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                {{ row.createdDateTimeStamp | date:'dd/MM/yyyy'}}
+                            </td>
+                        </ng-container>
+                        <!-- Description -->
+                        <ng-container matColumnDef="ModifiedDate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Modify Date
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                {{ row.modifiedDateTimeStamp | date:'dd/MM/yyyy' }}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Status">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Status
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <span [ngClass]="row.status === true ? 'Active' : 'Deactive' " ]>
+                                    {{ row.status === true ? 'Active' : 'Deactive' }}
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- Actions -->
+                        <ng-container matColumnDef="Actions">
+                            <th mat-header-cell *matHeaderCellDef>
+                                Actions
+                            </th>
+
+                            <td mat-cell *matCellDef="let row">
+                                <button mat-icon-button color="primary" (click)="edit(row)" matTooltip="Edit"
+                                    matTooltipPosition="above">
+                                    <mat-icon>edit</mat-icon>
+
+                                </button>
+
+                                <button mat-icon-button color="warn" (click)="delete(row)" matTooltip="Delete"
+                                    matTooltipPosition="above">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+                        <!-- Header -->
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <!-- Rows -->
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                        <tr class="mat-row center" *matNoDataRow>
+                            <td class="mat-cell" colspan="1">
+                                No results found
+                            </td>
+                        </tr>
+
+                    </table>
+                    <!-- Pagination -->
+                    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons> </mat-paginator>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

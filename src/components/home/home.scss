@@ -1,0 +1,124 @@
+.wraper_boxes {
+    display: flex;
+    padding: 1.5rem 0px 1rem 0;
+}
+
+.box-item {
+    border-radius: 2px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.08),
+        0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.box-item:hover {
+    transform: translateY(-5px);
+    box-shadow:
+        0 10px 20px rgba(0, 0, 0, 0.12),
+        0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.box-item {
+    width: 100%;
+    background-color: #fff;
+    padding: 15px;
+    margin: 10px;
+}
+
+
+.home_wraper {
+    display: flex;
+}
+
+.item {
+    width: 100%;
+    background: #fff;
+    margin: 5px;
+    padding-top: 10px;
+    padding-left: 8px;
+    padding-right: 6px;
+}
+
+.apexcharts-toolbar {
+    padding: 10px;
+}
+
+.apexcharts-canvas {
+    padding: 10px;
+}
+
+.dummy {
+    display: flex;
+}
+
+.charts {
+    width: 32.5%;
+    margin: 10px;
+    background-color: #fff;
+}
+
+div#apexchartsk02muim2:focus-visible {
+    outline: 0px !important;
+}
+
+.box-item:nth-child(4) {
+    background: #b7e3b3;
+    //box-shadow: 0px 5px 13px #98ae9682;
+}
+
+.box-item:nth-child(3) {
+    background-color: #a2c1ed;
+    //box-shadow: 0px 5px 13px #83a3d0;
+}
+
+.box-item:nth-child(2) {
+    background: #e1c3ff;
+    //box-shadow: 0px 5px 13px #caa7ee;
+}
+
+.box-item:nth-child(1) {
+    background-color: #ff9bb7;
+    //box-shadow: 0px 5px 13px #ff9eba;
+}
+
+.box-item:nth-child(2) .icon-wraper {
+    background-color: #bb85f1;
+}
+
+.box-item:nth-child(3) .icon-wraper {
+    background-color: #709dde;
+}
+
+.box-item:nth-child(4) .icon-wraper {
+    background-color: #8ec189;
+}
+
+span.icon-wraper mat-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+    line-height: 60px;
+}
+
+span.icon-wraper {
+    position: absolute;
+    transform: translate(12.5rem, -4rem);
+    background-color: #f36e93;
+    color: #fff;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    line-height: 4.5rem;
+    border-radius: 50%;
+}
+
+.box-item h1,
+.box-item h4 {
+    margin: 0;
+    padding-left: 10px;
+}
+
+.box-item h4 {
+    font-size: 16px !important;
+}

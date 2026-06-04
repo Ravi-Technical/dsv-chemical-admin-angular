@@ -1,0 +1,17 @@
+<div class="wraper">
+  <h5 mat-dialog-title align="center">{{ data.title }}</h5>
+  <mat-dialog-content align="center">
+    <p>{{ data.message }}</p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button class="cancel_btn" (click)="onCancel()">Cancel</button>
+    <button *ngIf="data.buttonType" 
+       [ngClass]="{ 
+            'deleteBtn':data.buttonType === 'Delete',
+            'errorBtn':data.buttonType === 'Error',
+            'okBtn': data.buttonType === 'Ok', 
+            'defaultBtn': data.buttonType !== 'Delete' && data.buttonType !== 'Error'  
+       }"
+       mat-raised-button color=" warn" (click)="onConfirm()">{{data.buttonType}}</button>
+  </mat-dialog-actions>
+</div>

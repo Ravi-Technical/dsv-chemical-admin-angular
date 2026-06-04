@@ -7,7 +7,11 @@ import {
 import express from 'express';
 import { join } from 'node:path';
 
+// Add at the very TOP of server.ts, before any imports
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+
 const browserDistFolder = join(import.meta.dirname, '../browser');
+
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();

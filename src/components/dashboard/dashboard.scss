@@ -1,0 +1,93 @@
+
+
+/* New Sidebar CSS */
+
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 260px;
+  background: #212020;
+  color: #fff;
+  padding: 1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  overflow-y: auto;
+}
+
+.main {
+  margin-left: 260px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  height: 60px;
+  background: #ffffff;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  position: sticky;
+  top: 0;justify-content: space-between;
+  z-index: 1000;
+}
+
+header.topbar mat-icon {
+    background-color: #ff4c7d;
+    color: #fff;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 29px;position: relative;
+    top: 2px;
+}
+
+.right-item {
+    display: flex;
+    align-items: anchor-center;
+    gap: 8px;
+}
+
+.content {
+  padding: 0 10px 10px 10px;
+  flex: 1;
+  background: #dfe2e5;
+}
+aside.sidebar li a {
+    color: #999;
+    text-decoration: none;
+    font-size: 13px;font-weight: 400;
+}
+
+aside.sidebar mat-icon {
+    color: #999;
+    font-size: 16px;
+    line-height: 2.4;
+}
+
+aside.sidebar ul {
+    margin: 0;
+    padding: 0;
+}
+aside.sidebar li {
+   margin: 8px 0px;
+    background: transparent;
+    padding: 0px 0 6px 6px;
+}
+
+li.active {
+    //background: #393939;
+    padding: 0px 0 6px 6px;
+}
+
+.active a, .active mat-icon {
+    color: #ddd !important;
+}
+

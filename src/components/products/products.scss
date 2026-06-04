@@ -1,0 +1,57 @@
+button#submitBtn {
+    color: #fff;
+    background-color: #0b52ff;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 14px;
+    margin-bottom: 2rem;
+}
+
+span { font-size: 12px;}
+
+table {
+    width: 100%;
+}
+
+form.form-wraper {
+    position: relative;
+    top: 1.5rem;
+}
+
+.mat-mdc-form-field {
+    width: 100%;
+}
+
+.category_wraper,
+.listing_category {
+    box-shadow: 0px 10px 20px #ddd;
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 1.5rem 2rem 1.5rem 2rem;
+}
+
+h4.title {
+    font-size: 16px;
+    color: #6a6666;
+    margin: 0;
+    font-weight: 500;
+}
+
+:host ::ng-deep .ck-editor__editable_inline {
+    min-height: 350px;
+}
+
+.listing_category span { cursor: pointer;}
+
+span.Active {
+    background-color: #3cb876;
+    color: #fff;
+    border-radius: 2px;
+    padding: 3px 10px;
+    font-size: 12px;
+}
+span.Deactive {
+   background-color: rgb(177, 34, 34);
+}
+

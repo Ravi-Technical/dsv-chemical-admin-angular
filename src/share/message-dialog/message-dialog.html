@@ -1,0 +1,28 @@
+<div class="dialog-container">
+    <!-- Icon -->
+    <div class="icon-wrapper" [ngClass]="data.type">
+        <mat-icon *ngIf="data.type === 'error'">error</mat-icon>
+        <mat-icon *ngIf="data.type === 'success'">check_circle</mat-icon>
+        <mat-icon *ngIf="data.type === 'warning'">warning</mat-icon>
+        <mat-icon *ngIf="data.type === 'info'">info</mat-icon>
+    </div>
+    <!-- Title -->
+    <h2 class="dialog-title">
+        {{ data.title }}
+    </h2>
+    <!-- Message -->
+    <p class="dialog-message">
+        {{ data.message }}
+    </p>
+    <!-- Button -->
+    <div class="dialog-actions">
+        <button mat-raised-button [color]="data.buttonColor || 'primary'" (click)="closeDialog()">
+            {{ data.buttonText || 'Close' }}
+        </button>
+    </div>
+    <div class="dialog-actions" *ngIf="data.flag">
+        <button mat-raised-button [color]="data.buttonColor || 'primary'" (click)="closeDialog()">
+            {{ data.buttonText || 'Close' }}
+        </button>
+    </div>
+</div>

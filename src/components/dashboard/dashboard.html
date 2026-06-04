@@ -1,0 +1,85 @@
+<!-- <div class="section_warper">
+<div class="container bg-light custom_class p-0">
+       <div class="row">  
+           <div class="col-lg-3"> 
+                <aside class="dashboard_wraper">
+                   <h1>Dashboard</h1>
+                   <p>Welcome to DSV Chemical</p>
+                   <nav>
+                      <ul>
+                         <li><a routerLink="">Products</a></li>
+                         <li><a routerLink="">Products</a></li>
+                         <li><a routerLink="">Products</a></li>
+                         <li><a routerLink="">Products</a></li>
+                         <li><a routerLink="">Products</a></li>
+                         <li><a routerLink="">Products</a></li>
+                      </ul>
+                   </nav>
+               </aside>
+            </div>
+            <div class="col-lg-9">
+                 <div class="content_body">
+                     <h2>Content Body</h2>
+                 </div>
+            </div>
+       </div>
+ </div>
+</div> -->
+
+
+<div class="admin-layout">
+    <aside class="sidebar">
+        <h3>DSV Chemical</h3>
+        <p><i>Manufacturer and exporters</i></p>
+        <nav>
+            <ul>
+                <li routerLinkActive="active">
+                    <mat-icon>home</mat-icon>
+                    <a routerLink="home">Dashboad</a>
+                </li>
+                <li routerLinkActive="active">
+                    <mat-icon>dashboard</mat-icon>
+                    <a routerLink="products">Products</a>
+                </li>
+                <li routerLinkActive="active">
+                    <mat-icon>dashboard</mat-icon>
+                    <a routerLink="product-category">Product Categories</a>
+                </li>
+                <li routerLinkActive="active">
+                    <mat-icon>info</mat-icon>
+                    <a routerLink="about-us">About Us</a>
+                </li>
+                <li routerLinkActive="active">
+                    <mat-icon>settings_applications</mat-icon>
+                    <a routerLink="/applications">Applications</a>
+                </li>
+                <li routerLinkActive="active">
+                    <mat-icon>query_builder</mat-icon>
+                    <a routerLink="enqure-form">Enquire Form</a>
+                </li>
+                <li routerLinkActive="active">
+                    <mat-icon> contact_mail</mat-icon>
+                    <a routerLink="contact-us">Contact Us</a>
+                </li>
+                <li routerLinkActive="active">
+                    <mat-icon> layers</mat-icon>
+                    <a routerLink="site-map">Site Map</a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <div class="main">
+        <header class="topbar">
+            <b>Welcome to Admin Panel</b>
+            <div class="right-item">
+                <span> <mat-icon>person_outline</mat-icon></span>
+                <span>Gaurav Kumar</span>
+                <!-- <span><mat-icon>notification_important</mat-icon></span> -->
+            </div>
+        </header>
+        <!-- Component Area -->
+        <div class="content">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

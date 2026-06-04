@@ -1,0 +1,130 @@
+<!-- course-form.component.html -->
+<form [formGroup]="courseForm" (ngSubmit)="onSubmit()" class="form-container">
+    <!-- Name -->
+    <div class="form-row">
+        <label class="form-label required">Name</label>
+        <mat-form-field appearance="outline" class="form-input">
+            <input matInput formControlName="name" placeholder="Enter name">
+        </mat-form-field>
+    </div>
+
+    <!-- Description -->
+    <div class="form-row">
+        <label class="form-label required">Description</label>
+
+        <ng-container *ngIf="isBrowser">
+
+            <ng-container *ngIf="Editor; else descriptionFallback">
+                <ckeditor formControlName="description" [editor]="Editor" [config]="editorConfig">
+                </ckeditor>
+            </ng-container>
+
+            <ng-template #descriptionFallback>
+                <mat-form-field appearance="outline" class="form-input">
+                    <mat-label>Description</mat-label>
+                    <textarea matInput formControlName="description" rows="6" class="form-control mt-2"></textarea>
+                    <mat-error *ngIf="courseForm.get('description')?.hasError('required')">
+                        Description is required
+                    </mat-error>
+                </mat-form-field>
+            </ng-template>
+
+        </ng-container>
+
+    </div>
+    <hr>
+    <!-- Image URL -->
+    <div class="form-row">
+        <label class="form-label required">Image URL</label>
+        <input *ngIf="!selectedImageUrl" type="file" id="image" matFile (change)="onSelectImage($event)" />
+        <p *ngIf="isUploading"> Uploading... </p>
+
+        <img *ngIf="selectedImageUrl" [src]="selectedImageUrl" width="150" height="120"
+            style="margin-top:10px;border-radius:8px;object-fit:cover;" />
+
+        <span *ngIf="selectedImageUrl" (click)="resetImage()" class="close">X</span>
+        <mat-form-field appearance="outline" class="form-input">
+            <input matInput formControlName="imageUrl" placeholder="Enter image url">
+            <mat-error *ngIf="courseForm.get('imageUrl')?.hasError('required')">
+                Image URL is required
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <hr>
+    <!-- Certificate Image URL -->
+    <div class="form-row">
+        <label class="form-label required">Certificate Image URL</label>
+        <input *ngIf="!selectedCertificateUrl" type="file" id="image" matFile (change)="onSelectCertificate($event)" />
+        <p *ngIf="isUploadingCertificate"> Uploading... </p>
+
+        <img *ngIf="selectedCertificateUrl" [src]="selectedCertificateUrl" width="150" height="120"
+            style="margin-top:10px;border-radius:8px;object-fit:cover;" />
+
+        <span *ngIf="selectedCertificateUrl" (click)="resetCerficateImage()" class="close">X</span>
+
+        <mat-form-field appearance="outline" class="form-input">
+            <input matInput formControlName="certificateImageUrl" placeholder="Enter certificate image url">
+            <mat-error *ngIf="courseForm.get('certificateImageUrl')?.hasError('required')">
+                Certificate URL is required
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <!-- Button -->
+    <div class="button-section">
+        <button *ngIf="!isEdit" mat-raised-button type="submit" class="submit-btn">
+            Submit
+        </button>
+        <button *ngIf="isEdit" mat-raised-button class="submit-btn">
+            Update Now
+        </button>
+    </div>
+</form>
+
+<!-- Preview Data -->
+<div class="mb-4 preview-container container">
+    <ng-container *ngIf="previewData; else noAboutData">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="header-section">
+                    <h2 class="part-1">Name : {{ previewData.name }}</h2>
+                    <button class="part-1 btn btn-primary" [disabled]="isModifying" (click)="editAbout()">
+                       {{isModifying ? 'Modifying...' : 'Modify Now'}} 
+                    </button>
+                </div>
+            </div>
+            <hr>
+            <div class="col-lg-12">
+                <div class="row content-section mb-4">
+                    <!-- Main Image -->
+                    <div class="col-lg-6">
+                        <div class="image-section">
+                            <h3>About Image</h3>
+                            <img [src]="previewData.imageUrl" alt="Main Image" class="main-image" />
+                        </div>
+                    </div>
+                    <!-- Certificate Image -->
+                    <div class="col-lg-6">
+                        <div class="image-section">
+                            <h3>Certificate Image</h3>
+                            <img [src]="previewData.certificateImageUrl" alt="Certificate Image"
+                                class="certificate-image" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Description -->
+            <div class="col-lg-12">
+                <div class="description-section">
+                    <h3>Description</h3>
+                    <div class="description-content" [innerHTML]="previewData.description"></div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #noAboutData>
+        <div class="noabout">
+            <h3 class="pt-2 text-center">No data available</h3>
+        </div>
+    </ng-template>
+</div>
