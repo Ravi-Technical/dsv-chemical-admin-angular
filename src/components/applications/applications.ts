@@ -45,7 +45,7 @@ export class Applications implements OnInit, OnDestroy, AfterViewInit {
   isEditMode = false;
   editingId: string | null = null;
   isLoading = false;
-  
+
   // Table
   categories = new MatTableDataSource<any>([]);
 
@@ -109,6 +109,9 @@ export class Applications implements OnInit, OnDestroy, AfterViewInit {
                 'Close', { duration: 3000 }
               );
               ResetForms(this.categoryForm);
+              this.categoryForm.setValue({
+                isActive: true
+              });
               // Reload categories AFTER success
               this.loadCategories();
             }
@@ -176,8 +179,11 @@ export class Applications implements OnInit, OnDestroy, AfterViewInit {
   }
 
   resetForm(): void {
-    this.categoryForm.reset({ isActive: true });
     this.isEditMode = false;
+    this.categoryForm.reset({ isActive: true });
+    this.categoryForm.setValue({
+      isActive: true
+    });
     this.editingId = null;
   }
 

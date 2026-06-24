@@ -39,6 +39,7 @@ export interface ProductModel {
     Name:string,
     Slug:string,
     Description:string,
+    ImageUrl:string,
     ProductCategoryId:string,
     CategoryName?:string
 }
@@ -63,6 +64,7 @@ export interface IProduct {
    name:string,
    categoryName:string,
    description:string,
+   imageUrl:string,
    slug:string,
    status:boolean,
    modifiedDateTimeStamp:string,
@@ -84,7 +86,7 @@ export interface IApplicationRequest {
 }
 
 export interface IApplicationProductReq {
-    title:string,
-    slug:string,
-    category:string
+    Title:string,
+    Slug:string,
+    Category:string
 }

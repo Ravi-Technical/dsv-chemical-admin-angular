@@ -1,5 +1,4 @@
 <div class="page-container">
-
   <!-- Page Header -->
   <div class="page-header">
     <h2>Applications</h2>
@@ -79,14 +78,11 @@
           All Categories
         </mat-card-title>
       </mat-card-header><br />
-
       <mat-card-content>
-
         <!-- Loading Spinner -->
         <div class="spinner-container" *ngIf="isLoading">
           <mat-spinner diameter="40"></mat-spinner>
         </div>
-      
         <!-- Table -->
         <table mat-table [dataSource]="categories" *ngIf="!isLoading" class="full-width">
           <!-- Name Column -->
@@ -128,7 +124,6 @@
           <tr class="mat-row" *matNoDataRow>
             <td class="mat-cell no-data" colspan="4">No categories found</td>
           </tr>
-
         </table>
         <!-- Pagination -->
         <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

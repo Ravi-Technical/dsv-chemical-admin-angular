@@ -9,7 +9,8 @@
                         <div class="col-lg-4">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Name</mat-label>
-                                <input matInput type="text" formControlName="Name" placeholder="Enter your name" />
+                                <input matInput type="text" (blur)="generateSlug($event)" formControlName="Name"
+                                    placeholder="Enter your name" />
                                 <mat-error *ngIf="productForm.get('Name')?.hasError('required')">
                                     Name is required
                                 </mat-error>
@@ -54,6 +55,26 @@
                                 Description is required
                             </div>
                         </div>
+                        <div class="col-lg-12 mt-2">
+                            <label class="form-label">Select Product Image</label>
+                            <br>
+                            <ng-container *ngIf="!selectedImageUrl">
+                                <input type="file" id="image" matFile (change)="onSelectImage($event)" />
+                                <p *ngIf="isUploading"> Uploading... </p>
+                            </ng-container>
+                            <ng-container *ngIf="selectedImageUrl">
+                                <img *ngIf="selectedImageUrl" [src]="selectedImageUrl" width="150" height="120"
+                                    style="margin-top:10px;border-radius:8px;object-fit:cover;" />
+                                <span *ngIf="selectedImageUrl" (click)="resetImage()" class="close">X</span>
+                            </ng-container>
+                            <mat-form-field appearance="outline" class="form-input">
+                                <input matInput formControlName="ImageUrl" placeholder="Image url">
+                                <mat-error *ngIf="productForm.get('ImageUrl')?.hasError('required')">
+                                    Image URL is required
+                                </mat-error>
+                            </mat-form-field>
+
+                        </div>
                         <div class="col-lg-12 mt-3">
                             <button mat-raised-button id="submitBtn" color="primary" type="submit"
                                 [disabled]="productForm.invalid">
@@ -84,7 +105,7 @@
                         <!-- ID -->
                         <ng-container matColumnDef="Id">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                ID
+                                #.
                             </th>
                             <td mat-cell *matCellDef="let row">
                                 <span matTooltip="{{ row.id }}" matTooltipPosition="above"> {{ row.id | chartSplit}}
@@ -109,6 +130,15 @@
                             <td mat-cell *matCellDef="let row">
                                 <span matTooltip="{{ row.slug }}" matTooltipPosition="above"> {{ row.slug | chartSplit
                                     }} </span>
+                            </td>
+                        </ng-container>
+                        <!-- Image Url -->
+                        <ng-container matColumnDef="ImageUrl">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Image
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <img id="pImage" src="{{row.imageUrl}}" matTooltip="{{ row.name }}" matTooltipPosition="above"/> 
                             </td>
                         </ng-container>
                         <!-- Category -->
@@ -137,7 +167,9 @@
                                 Created Date
                             </th>
                             <td mat-cell *matCellDef="let row">
-                                {{ row.createdDateTimeStamp | date:'dd/MM/yyyy'}}
+                                <span matTooltip="{{ row.createdDateTimeStamp | date:'dd/MM/yyyy hh:mm a' }}" matTooltipPosition="above">
+                                    {{ row.createdDateTimeStamp | date:'dd/MM/yyyy' }}
+                                </span>
                             </td>
                         </ng-container>
                         <!-- Description -->
@@ -146,7 +178,9 @@
                                 Modify Date
                             </th>
                             <td mat-cell *matCellDef="let row">
-                                {{ row.modifiedDateTimeStamp | date:'dd/MM/yyyy' }}
+                                <span matTooltip="{{ row.modifiedDateTimeStamp | date:'dd/MM/yyyy hh:mm a' }}" matTooltipPosition="above">
+                                    {{ row.modifiedDateTimeStamp | date:'dd/MM/yyyy' }}
+                                </span>
                             </td>
                         </ng-container>
 

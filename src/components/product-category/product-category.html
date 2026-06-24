@@ -9,7 +9,7 @@
                         <div class="col-lg-4">
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Name</mat-label>
-                                <input matInput type="text" formControlName="Name" placeholder="Enter your title" />
+                                <input matInput type="text" formControlName="Name" (blur)="convertSlug($event)" placeholder="Enter your title" />
                                 <mat-error *ngIf="productCategoryForm.get('Name')?.hasError('required')">
                                     Name is required
                                 </mat-error>

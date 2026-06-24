@@ -129,8 +129,7 @@ export class AboutUs implements OnInit {
         this.isUploading = false;
         this.notify.success("Image Upload Successfully");
       },
-      error: (error) => {
-        console.error(error);
+      error: (error) => { 
         this.matDialog.open(ConfirmDialogComponent, {
           ...DEFAULT_DIALOG_CONFIG,
           data: { title: "Something went wrong", message: error.error.message, buttonType: 'Ok' }
@@ -220,6 +219,7 @@ export class AboutUs implements OnInit {
                 });
                 this.isModifying = false;
               }
+              this.courseForm.reset();
               ResetForms(this.courseForm);
               this.resetCerficateImage();
               this.resetImage();

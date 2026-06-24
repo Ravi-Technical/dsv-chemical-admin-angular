@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/env';
 import { Observable } from 'rxjs';
-import { About_Api_Response, API_Response, CategoryModel, IAbout, IProduct, ProductCateogriesModel, ProductModel } from '../models/commonModels';
+import { About_Api_Response, API_Response, CategoryModel, IAbout, ProductModel } from '../models/commonModels';
 import { Whole_API_URLs } from '../models/apiUrls';
 import { AboutUs } from '../../components/about-us/about-us';
 

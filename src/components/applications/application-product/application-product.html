@@ -1,68 +1,121 @@
-<div class="content-grid">
-
-    <!-- LEFT: Form -->
-    <mat-card class="form-card">
-        <mat-card-header>
-            <mat-card-title>
-                <mat-icon>{{ isEditMode ? 'edit' : 'add_circle' }}</mat-icon>
-                {{ isEditMode ? 'Edit Category' : 'Add New Category' }}
-            </mat-card-title>
-        </mat-card-header><br />
-        <mat-card-content>
-            <form [formGroup]="appProductForm" (ngSubmit)="onSubmit()">
-
-                <!-- App Product Name -->
-                <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Product Name</mat-label>
-                    <input matInput formControlName="title" placeholder="Enter product name" (blur)="generateSlug()" />
-                    <mat-icon matSuffix>person</mat-icon>
-                    <mat-error *ngIf="appProductForm?.get('title')?.hasError('required')">
-                        Product name is required
-                    </mat-error>
-                    <mat-error *ngIf="appProductForm?.get('title')?.hasError('pattern')">
-                        Only alphabets allowed
-                    </mat-error>
-                </mat-form-field>
-
-                <!-- App Slug Name -->
-                <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Product Slug</mat-label>
-                    <input matInput formControlName="slug" placeholder="Enter product slug"  />
-                    <mat-icon matSuffix>person</mat-icon>
-                    <mat-error *ngIf="appProductForm?.get('slug')?.hasError('required')">
-                        Slug name is required
-                    </mat-error>
-                    <mat-error *ngIf="appProductForm?.get('slug')?.hasError('pattern')">
-                        Only alphabets allowed
-                    </mat-error>
-                </mat-form-field>
-                 
-                <mat-form-field appearance="outline">
-                    <mat-label>Select Category</mat-label>
-                    <mat-select formControlName="category">
-                        <mat-option *ngFor="let cat of categoriesData" [value]="cat">
-                            {{ cat }}
+<div class="page-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h2>Applications Products</h2>
+        <p>Manage your products </p>
+    </div>
+    <div class="content-grid">
+        <!-- LEFT: Form -->
+        <mat-card class="form-card">
+            <mat-card-header>
+                <mat-card-title>
+                    <mat-icon>{{ isEditMode ? 'edit' : 'add_circle' }}</mat-icon>
+                    {{ isEditMode ? 'Edit Product' : 'Add New Product' }}
+                </mat-card-title>
+            </mat-card-header><br />
+            <mat-card-content>
+                <form [formGroup]="appProductForm" (ngSubmit)="onSubmit()">
+                    <!-- Application Name -->
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Application Name</mat-label>
+                        <input matInput formControlName="Title" placeholder="Enter application name"
+                            (blur)="generateSlug()" />
+                        <mat-icon matSuffix>person</mat-icon>
+                        <mat-error *ngIf="f['Title'].hasError('required')">
+                            Application name is required
+                        </mat-error>
+                        <mat-error *ngIf="f['Title'].hasError('maxlength')">
+                            Max 100 characters allowed
+                        </mat-error>
+                    </mat-form-field>
+                    <!-- Slug -->
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Slug</mat-label>
+                        <input matInput formControlName="Slug" placeholder="auto-generated-slug" />
+                        <mat-icon matSuffix>link</mat-icon>
+                        <mat-hint>Auto-generated from name, or type manually</mat-hint>
+                        <mat-error *ngIf="f['Slug'].hasError('required')">
+                            Slug is required
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-select id="select_product" selectedID formControlName="CategoryId">
+                        <mat-option value="Select Category">Select Category</mat-option>
+                        <mat-option *ngFor="let item of categoriesData" [value]="item.id">
+                            {{ item.applicationName ? item.applicationName : "Select Category" }}
                         </mat-option>
                     </mat-select>
-                    <mat-error *ngIf="appProductForm?.get('categry')?.hasError('required')">
-                        Category is required
-                    </mat-error>
-                </mat-form-field>
-          <!-- Action Buttons -->
-          <div class="form-actions">
-            <button [ngClass]="isEditMode ? 'updateBtn' : 'submitBtn' " mat-raised-button color="primary" type="submit"
-              [disabled]="appProductForm.invalid || isLoading">
-              <mat-icon>{{ isEditMode ? 'save' : 'add' }}</mat-icon>
-              {{ isEditMode ? 'Update Category' : 'Create Category' }}
-            </button>
-
-            <button class="cancel_btn" mat-stroked-button type="button" *ngIf="isEditMode" (click)="resetForm()">
-              <mat-icon>close</mat-icon>
-              Cancel
-            </button>
-          </div>
-        </form>
-        </mat-card-content>
+                    <!-- Action Buttons -->
+                    <div class="form-actions">
+                        <button [ngClass]="isEditMode ? 'updateBtn' : 'submitBtn' " mat-raised-button color="primary"
+                            type="submit" [disabled]="appProductForm.invalid || isLoading">
+                            <mat-icon>{{ isEditMode ? 'save' : 'add' }}</mat-icon>
+                            {{ isEditMode ? 'Update Product' : 'Create Product' }}
+                        </button>
+                        <button class="cancel_btn" mat-stroked-button type="button" *ngIf="isEditMode"
+                            (click)="resetForm()">
+                            <mat-icon>close</mat-icon>
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </mat-card-content>
+        </mat-card>
+        <!-- RIGHT: Table -->
+    <mat-card class="table-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>list</mat-icon>
+          All Product List
+        </mat-card-title>
+      </mat-card-header><br />
+      <mat-card-content>
+        <!-- Loading Spinner -->
+        <div class="spinner-container" *ngIf="isLoading">
+          <mat-spinner diameter="40"></mat-spinner>
+        </div>
+        <!-- Table -->
+        <table mat-table [dataSource]="dataSource" *ngIf="!isLoading" class="full-width">
+          <!-- Name Column -->
+          <ng-container matColumnDef="Name">
+            <th mat-header-cell *matHeaderCellDef>Title</th>
+            <td mat-cell *matCellDef="let row">{{ row.productTitle }}</td>
+          </ng-container>
+          <!-- Slug Column -->
+          <ng-container matColumnDef="Slug">
+            <th mat-header-cell *matHeaderCellDef>Slug</th>
+            <td mat-cell *matCellDef="let row">
+              <code>{{ row.productSlug }}</code>
+            </td>
+          </ng-container>
+          <!-- Category Column -->
+          <ng-container matColumnDef="CategoryName">
+            <th mat-header-cell *matHeaderCellDef>Category</th>
+            <td mat-cell *matCellDef="let row">
+             {{ row.categoryName }}
+            </td>
+          </ng-container>
+          <!-- Actions Column --> 
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let row">
+              <button mat-icon-button color="primary" (click)="onEdit(row)" matTooltip="Edit">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="onDelete(row)" matTooltip="Delete">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <!-- No Data Row -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell no-data" colspan="4">No categories found</td>
+          </tr>
+        </table>
+        <!-- Pagination -->
+        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </mat-card-content>
     </mat-card>
-
     </div>
+</div>

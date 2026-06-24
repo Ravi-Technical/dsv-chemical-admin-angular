@@ -23,6 +23,7 @@ import { mapProductCategoryName } from '../../share/mapProductWithCategory';
 import { of } from 'rxjs';
 import { DEFAULT_DIALOG_CONFIG } from '../../share/Def_Mat_Dialog_CSS';
 import { title } from 'process';
+import { MatDialogService } from '../../@core/services/common-service';
 
 
 @Component({
@@ -49,7 +50,9 @@ export class Products implements OnInit, AfterViewInit {
 
   public Editor: any = null;
   public isBrowser = false;
-  
+  selectedImageUrl: string = "";
+  isUploading: boolean = false;
+
   public editorConfig = {
     height: 350,
     toolbar: [
@@ -72,6 +75,7 @@ export class Products implements OnInit, AfterViewInit {
     'Category',
     'Description',
     'Slug',
+    'ImageUrl',
     'CreatedDate',
     'ModifiedDate',
     'Status',
@@ -86,7 +90,7 @@ export class Products implements OnInit, AfterViewInit {
   existingProductData: any[] = [];
 
   constructor(private fb: FormBuilder, @Inject(PLATFORM_ID) private platformId: Object, private adminService: AdminService,
-    private matDialog: MatDialog, private notify: NotifyService) {
+    private matDialog: MatDialog, private notify: NotifyService, private commonService: MatDialogService) {
 
     this.isBrowser = isPlatformBrowser(this.platformId);
     // Form editor setup
@@ -102,8 +106,9 @@ export class Products implements OnInit, AfterViewInit {
       Name: ['', Validators.required],
       Slug: ['', Validators.required],
       ProductCategoryId: ['', Validators.required],
-      Description: ['', Validators.required]
-    });   
+      Description: ['', Validators.required],
+      ImageUrl: ['', Validators.required]
+    });
   }
 
   ngOnInit(): void {
@@ -115,7 +120,7 @@ export class Products implements OnInit, AfterViewInit {
     forkJoin({
       products: this.adminService.GetAllProduct().pipe(
         catchError(err => {
-                  console.log('❌ Products API failed:', err); // ADD THIS
+          console.log('❌ Products API failed:', err); // ADD THIS
 
           this.matDialog.open(ConfirmDialogComponent, {
             ...DEFAULT_DIALOG_CONFIG,
@@ -126,7 +131,7 @@ export class Products implements OnInit, AfterViewInit {
       ),
       categories: this.adminService.Get_Generic_Product_Categoris().pipe(
         catchError(err => {
-                  console.log('❌ Categories API failed:', err); // ADD THIS
+          console.log('❌ Categories API failed:', err); // ADD THIS
 
           this.matDialog.open(ConfirmDialogComponent, {
             ...DEFAULT_DIALOG_CONFIG,
@@ -140,7 +145,7 @@ export class Products implements OnInit, AfterViewInit {
       next: (res) => {
         const products = res.products?.data ? res.products?.data : [];
         const categories = res.categories?.data ? res.categories?.data : [];
-        this.categoryList = categories ? categories : []; 
+        this.categoryList = categories ? categories : [];
         const data = mapProductCategoryName(products, categories);
         this.dataSource.data = data;
       },
@@ -169,12 +174,45 @@ export class Products implements OnInit, AfterViewInit {
       return of(true);
     }
     const matDialofRef = this.matDialog.open(ConfirmDialogComponent, {
-       ...DEFAULT_DIALOG_CONFIG,
-       data:{title:'Warning !', message:'You have unsaved changes. Do you really want to leave?', buttonType:'Ok'}
+      ...DEFAULT_DIALOG_CONFIG,
+      data: { title: 'Warning !', message: 'You have unsaved changes. Do you really want to leave?', buttonType: 'Ok' }
     });
     return matDialofRef.afterClosed();
   }
 
+  // Reset Image
+  resetImage() {
+    this.isUploading = false;
+    this.selectedImageUrl = "";
+    this.productForm.patchValue({
+      ImageUrl: ''
+    })
+  }
+
+  // On Select Image
+  onSelectImage(event: any): void {
+    const file = event.target.files[0];
+    if (!file) return;
+    this.isUploading = true;
+    this.commonService.uploadImage(file).subscribe({
+      next: (result) => {
+        debugger
+        this.isUploading = false;
+        this.selectedImageUrl = result.secure_url;
+        this.productForm.patchValue({
+          ImageUrl: result.secure_url
+        })
+        this.notify.success("Image Upload Successfully");
+      },
+      error: (error) => {
+        console.error(error);
+        this.matDialog.open(ConfirmDialogComponent, {
+          ...DEFAULT_DIALOG_CONFIG,
+          data: { title: "Something went wrong", message: error.error.message, buttonType: 'Ok' }
+        })
+      }
+    })
+  }
   // Add Fresh New Category Submit Form
   addNewProduct() {
     if (this.isEditMode) {
@@ -192,6 +230,7 @@ export class Products implements OnInit, AfterViewInit {
           next: (result) => {
             if (result.success) {
               this.loadAllProducts();
+              this.selectedImageUrl = "";
               this.notify.success(result.message);
               ResetForms(this.productForm);
             } else {
@@ -233,7 +272,8 @@ export class Products implements OnInit, AfterViewInit {
       Name: row.name,
       Slug: row.slug,
       ProductCategoryId: row.productCategoryId,
-      Description: row.description
+      Description: row.description,
+      ImageUrl: row.imageUrl
     })
   }
   delete(row: IProduct) {
@@ -274,17 +314,24 @@ export class Products implements OnInit, AfterViewInit {
     this.dataSource.filter = '';
   }
 
+  // Generate Slug from Name
+  generateSlug(event: any) {
+    const nameValue = event.target.value;
+    const slug = nameValue.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+    this.productForm.patchValue({
+      Slug: slug
+    })
+  }
+
   ngOnDestroy(): void {
-    // if (isPlatformBrowser(this.platformId)) {
-    //   this.editor.destroy();
-    // }
+    this.selectedImageUrl = "";
+    this.isUploading = false;
+    ResetForms(this.productForm);
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.matSort;
-    // if (isPlatformBrowser(this.platformId)) {
-    //   this.editor.destroy();
-    // }
+
   }
 }

@@ -181,6 +181,15 @@ export class ProductCategory implements AfterViewInit {
      ResetForms(this.productCategoryForm);
   }
 
+  // Convert Category Name to Slug
+  convertSlug(event:any){
+       const name = event.target.value;
+       if(name) {
+          const slug = name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+          this.productCategoryForm.get('Slug')?.setValue(slug);
+       }
+  }
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.matSort;
